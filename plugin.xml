@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin id="cordova-plugin-short-video"
+  xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  version="1.0.0">  
+  <name>ShortVideoPlugin</name>   
+  
+  <js-module name="ShortVideoPlugin" src="www/ShortVideoPlugin.js"> 
+    <clobbers target="ShortVideoPlugin"/> 
+  </js-module>
+
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+        <feature name="ShortVideoPlugin">
+            <param name="android-package" value="com.huayu.noah.ShortVideoPlugin"/>
+        </feature>
+    </config-file>
+ 
+    <config-file parent="/*" target="AndroidManifest.xml"> 
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.CAMERA" />
+      <uses-permission android:name="android.permission.FLASHLIGHT" />
+      <uses-permission android:name="android.permission.RECORD_VIDEO" />
+      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    </config-file>   
+
+    <source-file src="src/android/ShortVideoPlugin.java" target-dir="src/com/huayu/noah"/>   
+  
+    <source-file src="src/android/res/layout/activity_short_video.xml" target-dir="src/main/res/layout"/>
+    
+    <framework src="src/android/gradle/aliShortVideo.gradle" custom="true" type="gradleReference"/>
+
+    
+ 
+
+      <config-file parent="/manifest/application" target="AndroidManifest.xml" > 
+                <!--手动填入您的短视频SDK License值.  参考文档 https://help.aliyun.com/document_detail/274386.html -->
+                <!-- <meta-data android:name="com.aliyun.ali_video_license.licensekey" android:value="xxxx" />  -->
+                <!-- <meta-data android:name="com.aliyun.ali_video_license.licensefile" android:value="assets/alivc_resource/AliVideoCert-com_xxx_xxx-2022333xxxxxxx.crt" />  -->
+      </config-file>  
+  </platform>  
+
+ 
+  <platform name="ios"> 
+    <config-file parent="/*" target="config.xml"> 
+      <feature name="ShortVideoPlugin"> 
+        <param name="ios-package" value="ShortVideoPlugin"/> 
+      </feature> 
+ 
+    </config-file>  
+  
+
+     <header-file src="src/ios/ShortVideoPlugin.h"/> 
+     <source-file src="src/ios/ShortVideoPlugin.m"/> 
+ 
+
+ 
+
+  </platform> 
+ 
+ 
+</plugin>

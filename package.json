@@ -1,0 +1,29 @@
+{
+  "name": "cordova-plugin-short-video",
+  "version": "1.0.0",
+  "description": "cordova 插件, 短视频拍摄,集成阿里云的SDK",
+  "cordova": {
+    "id": "cordova-plugin-short-video",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-plugin-short-video",
+    "float",
+    "window"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "author": "",
+  "license": "ISC"
+}
