@@ -1,7 +1,7 @@
 cordova 插件,集成了阿里云短视频SDK有短视频录制、裁剪、编辑、上传等功能 
 
 ``` 
-ionic cordova plugin add https://github.com/lounai-chen/cordova-plugin-mobile-login --variable LOGINSECRETKEY=xxxx --variable  LOGINPRIVACTWEB=http://xxx
+ionic cordova plugin add https://github.com/lounai-chen/cordova-plugin-short-video 
 ``` 
  
 
