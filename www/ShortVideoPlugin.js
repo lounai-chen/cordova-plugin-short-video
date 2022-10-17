@@ -14,6 +14,12 @@ var ShortVideoPlugin = {
         cordova.require('cordova/channel').onCordovaReady.subscribe(function(){
             exec(success, error, 'ShortVideoPlugin', 'start_record', ['']);
         });
+    },
+    stop_record: function(
+        success,
+        error        
+    ) {
+       exec(success, error, 'ShortVideoPlugin', 'stop_record', ['']); 
     }
 }
 

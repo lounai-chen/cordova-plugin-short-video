@@ -23,7 +23,9 @@ import android.view.View;
 import android.widget.ImageView;
  
 import androidx.annotation.RequiresApi;
- 
+
+import com.aliqin.mytel.uitls.PermissionUtils;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -49,6 +51,10 @@ public class ShortVideoPlugin extends CordovaPlugin {
   @Override
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
+    if (Build.VERSION.SDK_INT >= 23) {
+      PermissionUtils.checkAndRequestPermissions(this.cordova.getActivity(), 10001, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+              Manifest.permission.READ_PHONE_STATE);
+    }
     mActContext = this.cordova.getActivity().getApplicationContext();
     ApplicationInfo applicationInfo = null;
     try {
@@ -57,17 +63,13 @@ public class ShortVideoPlugin extends CordovaPlugin {
     } catch (PackageManager.NameNotFoundException e) {
       e.printStackTrace();
     }
- 
   }
-
 
   @RequiresApi(api = Build.VERSION_CODES.M)
   @Override
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
- 
     //初始化
     if (action.equals("init")) {
-
       ShortVideoFragment.mAppContext = this.cordova.getContext();
       initShortVideo(callbackContext);
       return true;
@@ -84,7 +86,19 @@ public class ShortVideoPlugin extends CordovaPlugin {
       });
       return true;
     }
-
+    //停止录播
+    else if (action.equals("stop_record")) {
+      mCallbackContext = callbackContext;    //拿到回调对象并保存
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          //停止录播
+          fragment_short_video.stopRecording();
+          callJS(ShortVideoFragment.videoPath);
+        }
+      });
+      return true;
+    }
     return false;
   }
 

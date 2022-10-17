@@ -28,6 +28,9 @@
     </config-file>   
 
     <source-file src="src/android/ShortVideoPlugin.java" target-dir="src/com/huayu/noah"/>   
+	<source-file src="src/android/ShortVideoFragment.java" target-dir="src/com/huayu/noah"/>   
+	<source-file src="src/android/Constants.java" target-dir="src/com/huayu/noah"/>   
+	
   
     <source-file src="src/android/res/layout/activity_short_video.xml" target-dir="src/main/res/layout"/>
     
@@ -38,8 +41,8 @@
 
       <config-file parent="/manifest/application" target="AndroidManifest.xml" > 
                 <!--手动填入您的短视频SDK License值.  参考文档 https://help.aliyun.com/document_detail/274386.html -->
-                <!-- <meta-data android:name="com.aliyun.ali_video_license.licensekey" android:value="xxxx" />  -->
-                <!-- <meta-data android:name="com.aliyun.ali_video_license.licensefile" android:value="assets/alivc_resource/AliVideoCert-com_xxx_xxx-2022333xxxxxxx.crt" />  -->
+                <!-- <meta-data android:name="com.aliyun.alivc_license.licensekey" android:value="xxxx" />  -->
+                <!-- <meta-data android:name="com.aliyun.alivc_license.licensefile" android:value="assets/alivc_resource/AliVideoCert-com_xxx_xxx-2022333xxxxxxx.crt" />  -->
       </config-file>  
   </platform>  
 
