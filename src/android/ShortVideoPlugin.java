@@ -53,7 +53,7 @@ public class ShortVideoPlugin extends CordovaPlugin {
     super.initialize(cordova, webView);
     if (Build.VERSION.SDK_INT >= 23) {
       PermissionUtils.checkAndRequestPermissions(this.cordova.getActivity(), 10001, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-              Manifest.permission.READ_PHONE_STATE);
+              Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE);
     }
     mActContext = this.cordova.getActivity().getApplicationContext();
     ApplicationInfo applicationInfo = null;
