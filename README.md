@@ -1,4 +1,4 @@
-cordova 插件,集成了阿里云短视频SDK有短视频录制、裁剪、编辑、上传等功能 
+cordova 插件,集成了阿里云短视频SDK有短视频录制等功能 
 
 ``` 
 ionic cordova plugin add https://github.com/lounai-chen/cordova-plugin-short-video 
@@ -25,6 +25,8 @@ ionic cordova plugin add https://github.com/lounai-chen/cordova-plugin-short-vid
 
 3 阿里云的参考链接 
 
-https://help.aliyun.com/document_detail/94459.html
+https://help.aliyun.com/document_detail/94459.html 
+
+https://help.aliyun.com/document_detail/92854.html
 
 

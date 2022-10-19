@@ -7,18 +7,16 @@
 #import <CommonCrypto/CommonCrypto.h>
  
 
-#import <ATAuthSDK/ATAuthSDK.h>
-#import <PNSNetDetect/PNSNetDetect.h>
-#import <YTXMonitor/YTXMonitor.h>
-#import <YTXOperators/YTXOperators.h>
+#import <AliyunVideoSDKPro/AliyunVideoSDKPro.h>
  
 
 @interface ShortVideoPlugin : CDVPlugin {
     NSString *webUrlString;
 } 
  
-- (void)onekey_init:(CDVInvokedUrlCommand*)command;
-- (void)onekey_login:(CDVInvokedUrlCommand*)command;
+- (void)init:(CDVInvokedUrlCommand*)command;
+- (void)start_record:(CDVInvokedUrlCommand*)command;
+- (void)stop_record:(CDVInvokedUrlCommand*)command;
 
 @end
 
@@ -33,7 +31,7 @@ static ShortVideoPlugin *selfplugin = nil;
    
 }
 
-- (void)onekey_init:(CDVInvokedUrlCommand *)command
+- (void)init:(CDVInvokedUrlCommand *)command
 {
     selfplugin = self;
     myAsyncCallBackId = command.callbackId;
@@ -45,14 +43,20 @@ static ShortVideoPlugin *selfplugin = nil;
 }
 
 
-- (void)onekey_login:(CDVInvokedUrlCommand *)command
+- (void)start_record:(CDVInvokedUrlCommand *)command
 {
     selfplugin = self;
-    myAsyncCallBackId = command.callbackId;
-    
+    myAsyncCallBackId = command.callbackId;    
   
 }
  
+
+- (void)stop_record:(CDVInvokedUrlCommand *)command
+{
+    selfplugin = self;
+    myAsyncCallBackId = command.callbackId;    
+  
+}
  
 
 
@@ -69,11 +73,6 @@ static ShortVideoPlugin *selfplugin = nil;
     }
 }
  
-
--(void)msgButtonClick{
-    [[TXCommonHandler sharedInstance] cancelLoginVCAnimated:YES complete:nil];
-    [self sendCmd:  @"1|"];
-}
  
 @end
 
