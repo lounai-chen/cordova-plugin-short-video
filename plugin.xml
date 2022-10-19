@@ -55,11 +55,19 @@
  
     </config-file>  
   
+    <header-file src="src/ios/ShortVideoPlugin.h"/> 
+    <source-file src="src/ios/ShortVideoPlugin.m"/> 
+    <header-file src="src/ios/AliyunPathManager.h"/> 
+    <source-file src="src/ios/AliyunPathManager.m"/> 
 
-     <header-file src="src/ios/ShortVideoPlugin.h"/> 
-     <source-file src="src/ios/ShortVideoPlugin.m"/> 
- 
+    <framework src="src/ios/SDK/alivcffmpeg.framework" custom="true" />
+    <!-- >100M 无法提交到github -->
+    <!-- <framework src="src/ios/SDK/AliyunVideoSDKPro.framework" custom="true" /> -->
 
+    <!-- Other required frameworks -->
+    <framework src="MobileCoreServices.framework" />
+    <framework src="SystemConfiguration.framework" />
+    <framework src="libresolv.tbd" />
  
 
   </platform> 
