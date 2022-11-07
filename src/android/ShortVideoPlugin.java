@@ -82,6 +82,7 @@ public class ShortVideoPlugin extends CordovaPlugin {
         public void run() {
           //开始录制
           fragment_short_video.startRecording();
+          callJS("success");
         }
       });
       return true;
@@ -105,8 +106,9 @@ public class ShortVideoPlugin extends CordovaPlugin {
       cordova.getActivity().runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          //开始录制
+          //切换摄像头
           fragment_short_video.switchCamera();
+          callJS("success");
         }
       });
       return true;
@@ -117,8 +119,9 @@ public class ShortVideoPlugin extends CordovaPlugin {
       cordova.getActivity().runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          //开始录制
+          //开启美颜
           fragment_short_video.openBeaut();
+          callJS("success");
         }
       });
       return true;
@@ -129,8 +132,9 @@ public class ShortVideoPlugin extends CordovaPlugin {
       cordova.getActivity().runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          //开始录制
+          //关闭美颜
           fragment_short_video.closeBeaut();
+          callJS("success");
         }
       });
       return true;
