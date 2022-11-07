@@ -15,6 +15,7 @@ import com.aliqin.mytel.uitls.PermissionUtils;
 import com.aliyun.common.utils.ThreadUtils;
 import com.aliyun.svideosdk.AlivcSdkCore;
 import com.aliyun.svideosdk.common.callback.recorder.OnRecordCallback;
+import com.aliyun.svideosdk.common.struct.effect.EffectFilter;
 import com.aliyun.svideosdk.common.struct.recorder.MediaInfo;
 import com.aliyun.svideosdk.recorder.AliyunIRecorder;
 import com.aliyun.svideosdk.recorder.impl.AliyunRecorderCreator;
@@ -104,6 +105,17 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         mCameraViiew = (SurfaceView)PageView.findViewById(R.id.cameraPreviewView);
         mAliyunRecord.setDisplayView(mCameraViiew);
         mAliyunRecord.startPreview();
+
+
+
+        //设置滤镜  需自定义配置文件
+       // mAliyunRecord.applyFilter(EffectFilter effectFilter);//参数路径设置为null表示移除滤镜效果
+
+        //移除滤镜
+        //mAliyunRecord.applyFilter(new EffectFilter(null));
+
+
+
 
         mAliyunRecord.setOnRecordCallback(new OnRecordCallback() {
             @Override
@@ -202,6 +214,29 @@ public class ShortVideoFragment  extends android.app.Fragment  {
     public void stopRecording() {
 
         mAliyunRecord.stopRecording();
+
+    }
+
+    //切换摄像头
+    public  void switchCamera(){
+        //切换摄像头
+        mAliyunRecord.switchCamera();
+    }
+
+    //开启美颜
+    public  void  openBeaut(){
+        //设置美颜开关
+        mAliyunRecord.setBeautyStatus(true);
+
+        //设置美颜程度 max = 100
+        mAliyunRecord.setBeautyLevel(89);
+    }
+
+
+    //关闭美颜
+    public  void  closeBeaut(){
+        //设置美颜开关
+        mAliyunRecord.setBeautyStatus(false);
 
     }
 }

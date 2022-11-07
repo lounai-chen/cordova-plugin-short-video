@@ -99,6 +99,42 @@ public class ShortVideoPlugin extends CordovaPlugin {
       });
       return true;
     }
+    //切换摄像头
+    else if (action.equals("switch_camera")) {
+      mCallbackContext = callbackContext;    //拿到回调对象并保存
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          //开始录制
+          fragment_short_video.switchCamera();
+        }
+      });
+      return true;
+    }
+    //开启美颜
+    else if (action.equals("open_beaut")) {
+      mCallbackContext = callbackContext;    //拿到回调对象并保存
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          //开始录制
+          fragment_short_video.openBeaut();
+        }
+      });
+      return true;
+    }
+    //关闭美颜
+    else if (action.equals("close_beaut")) {
+      mCallbackContext = callbackContext;    //拿到回调对象并保存
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          //开始录制
+          fragment_short_video.closeBeaut();
+        }
+      });
+      return true;
+    }
     return false;
   }
 
