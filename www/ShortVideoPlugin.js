@@ -8,6 +8,7 @@ var ShortVideoPlugin = {
     ) {
        exec(success, error, 'ShortVideoPlugin', 'init', ['']); 
     },
+    //开始录制
     start_record: function(
         success,
         error        
@@ -15,30 +16,30 @@ var ShortVideoPlugin = {
         cordova.require('cordova/channel').onCordovaReady.subscribe(function(){
             exec(success, error, 'ShortVideoPlugin', 'start_record', ['']);
         });
-    }
-    ,
-        stop_record: function(
+    },
+    //停止录制
+    stop_record: function(
             success,
             error
         ) {
            exec(success, error, 'ShortVideoPlugin', 'stop_record', ['']);
-        }
-        ,
-        switch_camera: function(
+        },
+    //切换摄像头
+    switch_camera: function(
             success,
             error
         ) {
            exec(success, error, 'ShortVideoPlugin', 'switch_camera', ['']);
-        }
-        ,
-        open_beaut: function(
+        },
+    //开启内置美颜
+    open_beaut: function(
             success,
             error
         ) {
            exec(success, error, 'ShortVideoPlugin', 'open_beaut', ['']);
-        }
-        ,
-        close_beaut: function(
+        },
+    //关闭内置美颜
+    close_beaut: function(
             success,
             error
         ) {

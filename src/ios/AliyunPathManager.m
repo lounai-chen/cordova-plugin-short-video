@@ -13,11 +13,11 @@
 #pragma mark - Public
 
 + (NSString *)aliyunRootPath {
-    return [[self rootPath] stringByAppendingPathComponent:@"com.duanqu.demo"];
+    return [[self rootPath] stringByAppendingPathComponent:@"com.zhongzilian.chestnutapp"];
 }
 
 + (NSString *)quCachePath {
-    return [[self cachePath] stringByAppendingPathComponent:@"com.duanqu.demo"];
+    return [[self cachePath] stringByAppendingPathComponent:@"com.zhongzilian.chestnutapp"];
 }
 
 + (NSString *)compositionRootDir {
@@ -26,7 +26,7 @@
 
 + (NSString *)quRelativeRootPath {
     
-    return @"Documents/com.duanqu.demo";
+    return @"Documents/com.zhongzilian.chestnutapp";
 }
 
 //+ (NSString *)createCompositionDir {

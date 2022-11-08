@@ -13,7 +13,7 @@
 @interface ShortVideoPlugin : CDVPlugin {
     NSString *webUrlString;
     
-} 
+}
  @property (nonatomic ,strong)  AliyunIRecorder *aliyunRecorder ;
 
 - (void)init:(CDVInvokedUrlCommand*)command;
@@ -103,7 +103,7 @@ static ShortVideoPlugin *selfplugin = nil;
 - (void)start_record:(CDVInvokedUrlCommand *)command
 {
     selfplugin = self;
-    myAsyncCallBackId = command.callbackId;    
+    myAsyncCallBackId = command.callbackId;
 
    dispatch_async(dispatch_get_main_queue(), ^{
     // 开始录制一段视频
@@ -115,7 +115,7 @@ static ShortVideoPlugin *selfplugin = nil;
 - (void)stop_record:(CDVInvokedUrlCommand *)command
 {
     selfplugin = self;
-    myAsyncCallBackId = command.callbackId;    
+    myAsyncCallBackId = command.callbackId;
 
    dispatch_async(dispatch_get_main_queue(), ^{
     //结束录制，并且将录制片段视频拼接成一个完整的视频
@@ -123,9 +123,49 @@ static ShortVideoPlugin *selfplugin = nil;
        [self sendCmd:webUrlString];
    });
     
-  
+}
+
+- (void)switch_camera:(CDVInvokedUrlCommand *)command
+{
+    selfplugin = self;
+    myAsyncCallBackId = command.callbackId;
+
+   dispatch_async(dispatch_get_main_queue(), ^{
+    
+       [self.aliyunRecorder switchCameraPosition];
+       [self sendCmd:@"success"];
+   });
     
 }
+
+- (void)open_beaut:(CDVInvokedUrlCommand *)command
+{
+    selfplugin = self;
+    myAsyncCallBackId = command.callbackId;
+
+   dispatch_async(dispatch_get_main_queue(), ^{
+    
+       self.aliyunRecorder.beautifyValue = 89;
+       self.aliyunRecorder.beautifyStatus = YES;
+       [self sendCmd:@"success"];
+   });
+    
+}
+
+
+- (void)close_beaut:(CDVInvokedUrlCommand *)command
+{
+    selfplugin = self;
+    myAsyncCallBackId = command.callbackId;
+
+   dispatch_async(dispatch_get_main_queue(), ^{
+    
+       self.aliyunRecorder.beautifyStatus = NO;
+       [self sendCmd:@"success"];
+   });
+    
+}
+
  
 
 -  (void)  sendCmd : (NSString *)msg
