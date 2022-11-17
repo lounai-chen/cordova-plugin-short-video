@@ -139,6 +139,35 @@ public class ShortVideoPlugin extends CordovaPlugin {
       });
       return true;
     }
+    //视频缩略图
+    else if (action.equals("video_thumbnail")) {
+      mCallbackContext = callbackContext;
+      String VideoSourcePath = args.getString(0);           // 视频路径
+      long VideoTime  = Long.parseLong(args.getString(1));  // 当前时间的取缩略图, 单位：微秒
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          String output = fragment_short_video.ThumbnailTetcher(VideoSourcePath, VideoTime);
+          callJS(output);
+        }
+      });
+      return true;
+    }
+    //视频剪辑
+    else if (action.equals("video_clip")) {
+      mCallbackContext = callbackContext;
+       String inputPath = args.getString(0);                // 视频路径
+       long startTime = Long.parseLong(args.getString(1));  // 开始剪辑的时间, 单位：微秒
+       long endTime = Long.parseLong(args.getString(2));    // 结束剪辑的时间,单位：微秒
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          String output = fragment_short_video.InitICrop("",inputPath, startTime, endTime);
+          callJS(output);
+        }
+      });
+      return true;
+    }
     return false;
   }
 

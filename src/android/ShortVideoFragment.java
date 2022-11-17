@@ -54,20 +54,12 @@ import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ShortVideoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ShortVideoFragment  extends android.app.Fragment  {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     public static Context mAppContext;
-    private String mParam1;
-    private String mParam2;
+
     private View PageView;
     private Boolean sdkResult;
     private  static AliyunIRecorder mAliyunRecord   ;
@@ -75,35 +67,13 @@ public class ShortVideoFragment  extends android.app.Fragment  {
 
     public static  String videoPath;
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ShortVideoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ShortVideoFragment newInstance(String param1, String param2) {
-        ShortVideoFragment fragment = new ShortVideoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         sdkResult = AlivcSdkCore.register(mAppContext);
         //如果 sdkResult 返回false，表示License初始化失败，请检查License的配置是否正确。
+        //返回 null 才是正常
     }
 
 
@@ -375,6 +345,17 @@ public class ShortVideoFragment  extends android.app.Fragment  {
     //结束录制
     public void stopRecording() {
         mAliyunRecord.stopRecording();
+    }
+
+    /**
+     * 销毁录制，在activity或者fragment被销毁时调用此方法
+     */
+    public void destroyRecorder() {
+        if (mAliyunRecord != null) {
+            mAliyunRecord.release();
+            mAliyunRecord = null;
+            Log.i("TAG", "recorder destroy");
+        }
     }
 
     //切换摄像头

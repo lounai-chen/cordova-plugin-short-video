@@ -44,7 +44,31 @@ var ShortVideoPlugin = {
             error
         ) {
            exec(success, error, 'ShortVideoPlugin', 'close_beaut', ['']);
-        }
+        },
+    //视频缩略图
+    //VideoSourcePath : 视频路径
+    //VideoTime : 当前时间的取缩略图, 单位：微秒  
+    video_thumbnail: function(
+        VideoSourcePath,
+        VideoTime,
+        success,
+        error
+    ) {
+       exec(success, error, 'ShortVideoPlugin', 'video_thumbnail', [VideoSourcePath,VideoTime]);
+    },
+    //视频剪辑
+    //inputPath : 视频路径
+    //startTime : 开始剪辑的时间, 单位：微秒  
+    //endTime : 结束剪辑的时间,单位：微秒  
+    video_clip: function(
+        inputPath,
+        startTime,
+        endTime,
+        success,
+        error
+    ) {
+       exec(success, error, 'ShortVideoPlugin', 'video_clip', [inputPath,startTime,endTime]);
+    }
 }
 
 module.exports = ShortVideoPlugin
