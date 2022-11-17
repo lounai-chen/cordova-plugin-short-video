@@ -201,7 +201,7 @@ public class ShortVideoFragment  extends android.app.Fragment  {
     }
 
     //视频剪辑
-    public   void InitICrop(String outputPath,String inputPath,long startTime,long endTime){
+    public  String  InitICrop(String outputPath,String inputPath,long startTime,long endTime){
 
         if("".equals(outputPath)){
             outputPath = Constants.SDCardConstants.getDir(mAppContext.getApplicationContext()) + File.separator + System.currentTimeMillis() + "-output.mp4";
@@ -260,14 +260,12 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         cropParam.setFillColor(Color.BLACK);
         aliyunICrop .setCropParam(cropParam);
 
-
         //3设置回调
         aliyunICrop .setCropCallback(new CropCallback() {
             @Override
             public void onProgress(int i) {
                 //裁剪进度
             }
-
 
             @Override
             public void onError(int i) {
@@ -289,11 +287,13 @@ public class ShortVideoFragment  extends android.app.Fragment  {
 
         //4.开始裁剪
         aliyunICrop.startCrop();
+
+        return  outputPath;
     }
 
 
     //视频缩略图
-    public  void  ThumbnailTetcher(String VideoSourcePath){
+    public  String  ThumbnailTetcher(String VideoSourcePath,long VideoTime){
         if("".equals(VideoSourcePath)){
             VideoSourcePath = videoPath;
         }
@@ -301,6 +301,8 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         if(new File(VideoSourcePath).exists() == false){
             Log.i("ThumbnailTetcher", "ThumbnailTetcher, 输入文件不存在:" + VideoSourcePath);
         }
+
+        String out_img = Constants.SDCardConstants.getDir(mAppContext.getApplicationContext()) + File.separator + System.currentTimeMillis() + "-thumbnail.jpg";
 
         //1.创建实例
         ////AlivcSdkCore.register(getApplicationContext()); 创建缩略图之前，要确认SDK有进行初始化
@@ -319,16 +321,15 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         int cacheSize = 10; //缓存的缩略图数量
         fetcher.setParameters(720, 1080,cropMode, videoDisplayMode, cacheSize);
         //一般建议，如果是请求一系列缩略图，fastMode设置为true，会快速出图；如果是请求一张或者需要精确地时间点的缩略图，可以设置为false
-        fetcher.setFastMode(true);
+        fetcher.setFastMode(false);
 
         //4.最终缩略图会在回调中给出
-        long[] times = {1000, 2000, 3000}; //缩略图时间戳
-        fetcher.requestThumbnailImage( times, new AliyunIThumbnailFetcher.OnThumbnailCompletion() {
-
+        long[] times = {VideoTime,VideoTime+1000}; //缩略图时间戳
+        fetcher.requestThumbnailImage(times, new AliyunIThumbnailFetcher.OnThumbnailCompletion() {
             @Override
             public void onThumbnailReady(Bitmap frameBitmap, long time, int index) {
                 //返回的缩略图
-                saveBitmap(frameBitmap,time+""+index);
+               saveBitmap(frameBitmap,out_img);
             }
 
             @Override
@@ -359,6 +360,8 @@ public class ShortVideoFragment  extends android.app.Fragment  {
 
         //5.用完后销毁
         //fetcher.release();
+
+        return  out_img;
     }
 
     //开始录制
@@ -399,24 +402,9 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         mAliyunRecord.setBeautyStatus(false);
     }
 
-    //视频缩略图
-    public  void  videoOpenBeaut(){
-        ThumbnailTetcher("");
-    }
-
-
-    //视频剪辑
-    public  void  videoInitICrop(){
-        InitICrop("","",0,2233);
-    }
-
-
-
-
-    static String saveBitmap(Bitmap bm,String name) {
-        String name_tmp = Constants.SDCardConstants.getDir(mAppContext.getApplicationContext()) + File.separator + System.currentTimeMillis() + "-thumbnail.jpg";
-        File saveFile = new File(name_tmp);
+    static void saveBitmap(Bitmap bm,String out_img) {
         try {
+            File saveFile = new File(out_img);
             FileOutputStream saveImgOut = new FileOutputStream(saveFile);
             // compress - 压缩
             bm.compress(Bitmap.CompressFormat.JPEG, 80, saveImgOut);
@@ -427,9 +415,6 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return name_tmp;
     }
-
-
 
 }
