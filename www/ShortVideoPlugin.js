@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-short-video.ShortVideoPlugin", function(require, exports, module) {
+ 
 var exec = require('cordova/exec');
 
 var ShortVideoPlugin = { 
@@ -72,4 +72,4 @@ var ShortVideoPlugin = {
 }
 
 module.exports = ShortVideoPlugin
-});
+ 
