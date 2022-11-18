@@ -51,6 +51,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static com.huayu.noah.ShortVideoPlugin.callJS;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -171,11 +173,9 @@ public class ShortVideoFragment  extends android.app.Fragment  {
     }
 
     //视频剪辑
-    public  String  InitICrop(String outputPath,String inputPath,long startTime,long endTime){
+    public  String  InitICrop( String inputPath,long startTime,long endTime){
+        String  outputPath = Constants.SDCardConstants.getDir(mAppContext.getApplicationContext()) + File.separator + System.currentTimeMillis() + "-output.mp4";
 
-        if("".equals(outputPath)){
-            outputPath = Constants.SDCardConstants.getDir(mAppContext.getApplicationContext()) + File.separator + System.currentTimeMillis() + "-output.mp4";
-        }
         if("".equals(inputPath)){
             inputPath = videoPath;
         }
@@ -205,7 +205,7 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         //视频源文件路径
         cropParam.setInputPath(inputPath);
 
-        //开始时间，单位：微秒
+        //开始时间，单位：微秒  1000000 微秒 = 1秒
         cropParam.setStartTime(startTime);
         //结束时间，单位：微秒
         cropParam.setEndTime(endTime);
@@ -247,7 +247,8 @@ public class ShortVideoFragment  extends android.app.Fragment  {
             public void onComplete(long executeTime) {
                 //裁剪完成
                 Log.i("TestCrop", "裁剪完成，耗时为:" + executeTime);
-                Toast.makeText(mAppContext, "裁剪完成，耗时为:" + executeTime, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mAppContext, "裁剪完成，耗时为:" + executeTime, Toast.LENGTH_SHORT).show();
+                callJS(outputPath);
             }
 
             @Override
@@ -294,12 +295,16 @@ public class ShortVideoFragment  extends android.app.Fragment  {
         fetcher.setFastMode(false);
 
         //4.最终缩略图会在回调中给出
-        long[] times = {VideoTime,VideoTime+1000}; //缩略图时间戳
+        long[] times = {VideoTime }; //缩略图时间戳 //,VideoTime+1000000    毫秒
         fetcher.requestThumbnailImage(times, new AliyunIThumbnailFetcher.OnThumbnailCompletion() {
             @Override
             public void onThumbnailReady(Bitmap frameBitmap, long time, int index) {
                 //返回的缩略图
                saveBitmap(frameBitmap,out_img);
+                //5.用完后销毁
+                fetcher.release();
+                callJS(out_img);
+               // Log.e("TestCrop", "testCrop,缩略图out_img:" + out_img);
             }
 
             @Override
@@ -328,8 +333,7 @@ public class ShortVideoFragment  extends android.app.Fragment  {
 
          */
 
-        //5.用完后销毁
-        //fetcher.release();
+
 
         return  out_img;
     }

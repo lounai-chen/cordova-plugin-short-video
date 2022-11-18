@@ -68,7 +68,14 @@ var ShortVideoPlugin = {
         error
     ) {
        exec(success, error, 'ShortVideoPlugin', 'video_clip', [inputPath,startTime,endTime]);
-    }
+    },
+	//销毁视频录制
+	video_destroy: function(
+		success,
+		error
+	) {
+	   exec(success, error, 'ShortVideoPlugin', 'video_destroy', ['']);
+	}
 }
 
 module.exports = ShortVideoPlugin

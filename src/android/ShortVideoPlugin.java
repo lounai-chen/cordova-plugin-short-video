@@ -143,12 +143,12 @@ public class ShortVideoPlugin extends CordovaPlugin {
     else if (action.equals("video_thumbnail")) {
       mCallbackContext = callbackContext;
       String VideoSourcePath = args.getString(0);           // 视频路径
-      long VideoTime  = Long.parseLong(args.getString(1));  // 当前时间的取缩略图, 单位：微秒
+      long VideoTime  = Long.parseLong(args.getString(1));  // 当前时间的取缩略图, 单位：毫秒
       cordova.getActivity().runOnUiThread(new Runnable() {
         @Override
         public void run() {
           String output = fragment_short_video.ThumbnailTetcher(VideoSourcePath, VideoTime);
-          callJS(output);
+          //callJS(output);
         }
       });
       return true;
@@ -162,8 +162,21 @@ public class ShortVideoPlugin extends CordovaPlugin {
       cordova.getActivity().runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          String output = fragment_short_video.InitICrop("",inputPath, startTime, endTime);
-          callJS(output);
+          String output = fragment_short_video.InitICrop(inputPath, startTime, endTime);
+          //callJS(output);
+        }
+      });
+      return true;
+    }
+    //销毁视频录制
+    else if (action.equals("video_destroy")) {
+      mCallbackContext = callbackContext;
+      cordova.getActivity().runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          fragment_short_video.destroyRecorder();
+          fragment_short_video = null;
+          callJS("sucess");
         }
       });
       return true;
