@@ -8,12 +8,11 @@
  
 #import "AliyunPathManager.h"
 #import <AliyunVideoSDKPro/AliyunVideoSDKPro.h>
- 
+#import <AliyunVideoSDKPro/AliyunIRecorder.h>
+#import <AliyunVideoSDKPro/AliyunErrorCode.h>
 
-@interface ShortVideoPlugin : CDVPlugin {
-    NSString *webUrlString;
-    
-}
+@interface ShortVideoPlugin : CDVPlugin <AliyunIRecorderDelegate>
+
  @property (nonatomic ,strong)  AliyunIRecorder *aliyunRecorder ;
 
 - (void)init:(CDVInvokedUrlCommand*)command;
@@ -22,7 +21,10 @@
 
 @end
 
-@implementation ShortVideoPlugin
+@implementation ShortVideoPlugin{
+    NSString *webUrlString;
+    
+}
 
 static NSString* myAsyncCallBackId = nil;
 static CDVPluginResult *pluginResult = nil;
@@ -55,26 +57,31 @@ static ShortVideoPlugin *selfplugin = nil;
     myAsyncCallBackId = command.callbackId;
  
     
-    NSString *editDir = [AliyunPathManager compositionRootDir];
-    NSString *taskPath = [editDir stringByAppendingPathComponent:[AliyunPathManager randomString]];
-
+            //清除之前生成的录制路径
+                   NSString *recordDir = [AliyunPathManager createRecrodDir];
+                   [AliyunPathManager makeDirExist:recordDir];
+                   //生成这次的存储路径
+                   NSString *taskPath = [recordDir stringByAppendingPathComponent:[AliyunPathManager randomString]];
+                   //视频存储路径
+                   NSString *videoSavePath = [[taskPath stringByAppendingPathComponent:[AliyunPathManager randomString]] stringByAppendingPathExtension:@"mp4"];
+            
     CGSize resolution = CGSizeMake(720, 1280);           // 720P
     AliyunIRecorder *recorder = [[AliyunIRecorder alloc] initWithDelegate:self videoSize:resolution];
     recorder.taskPath = taskPath;//设置文件夹路径
     recorder.preview = self.webView;  // self.videoView;//设置预览视图
     recorder.recordFps = 30;
     recorder.GOP = recorder.recordFps * 3;  // 预计隔3s一个关键帧
-    recorder.outputPath = [taskPath stringByAppendingPathComponent:@"output.mp4"];//设置录制视频输出路径
+    recorder.outputPath = videoSavePath;//[taskPath stringByAppendingPathComponent:@"output.mp4"];//设置录制视频输出路径
     recorder.frontCaptureSessionPreset = AVCaptureSessionPreset1280x720;
     recorder.backCaptureSessionPreset = AVCaptureSessionPreset1280x720;
-
-            webUrlString = recorder.outputPath;
+            self->webUrlString = recorder.outputPath;
     // 录制片段设置
-    recorder.clipManager.deleteVideoClipsOnExit = YES; // 退出时自动删除所有片段，也可以考虑在拍摄结束后自行删除taskPath
+    recorder.clipManager.deleteVideoClipsOnExit = NO; // 退出时自动删除所有片段，也可以考虑在拍摄结束后自行删除taskPath
     recorder.clipManager.maxDuration = 15;
     recorder.clipManager.minDuration = 3;
-
+   
     self.aliyunRecorder = recorder;
+      
 
 // AliyunIRecorderCameraPositionFront 前摄像头启动预览
 // AliyunIRecorderCameraPositionBack 后摄像头启动预览
@@ -110,20 +117,75 @@ static ShortVideoPlugin *selfplugin = nil;
     [self.aliyunRecorder startRecording];
    });
 }
- 
+
 
 - (void)stop_record:(CDVInvokedUrlCommand *)command
 {
     selfplugin = self;
     myAsyncCallBackId = command.callbackId;
-
+    
+    
+    
+    
    dispatch_async(dispatch_get_main_queue(), ^{
+    //   [self.aliyunRecorder stopRecording];
     //结束录制，并且将录制片段视频拼接成一个完整的视频
-    [self.aliyunRecorder finishRecording];
-       [self sendCmd:webUrlString];
+    //[self.aliyunRecorder finishRecording];
+     
+     //  [self.finishBlock]
+    
+      // [self.aliyunRecorder stopRecording];
+       
+       [self.aliyunRecorder finishRecording];
+//
+//       [self.aliyunRecorder stopPreview];
+       
+      // UISaveVideoAtPathToSavedPhotosAlbum(webUrlString, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+    
+       
+       [self sendCmd:self->webUrlString];
    });
     
 }
+
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo: (void *)contextInfo {
+    //[MBProgressHUD showMessage:NSLocalizedString(@"已保存到手机相册", nil) inView:self.view];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+     // [self.navigationController popViewControllerAnimated:YES];
+    });
+}
+
+#pragma mark - record delegate-
+
+// 录制进度
+- (void)recorderVideoDuration:(CGFloat)duration{
+    NSLog(@"录制中：%f",duration);
+   
+}
+
+// 录制停止
+- (void)recorderDidStopRecording{
+    NSLog(@"----停止录制");
+    
+    [self.aliyunRecorder finishRecording];
+    
+    //[self.aliyunRecorder stopPreview];
+
+}
+
+- (void)recorderDidFinishRecording{
+    NSLog(@"----完成录制");
+
+    //停止预览
+    [self.aliyunRecorder stopPreview];
+    
+    [self sendCmd:webUrlString];
+}
+
+- (void)recorderDeviceAuthorization:(AliyunIRecorderDeviceAuthor)status { 
+
+}
+
 
 - (void)switch_camera:(CDVInvokedUrlCommand *)command
 {

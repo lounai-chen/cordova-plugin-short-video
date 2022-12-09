@@ -29,13 +29,22 @@ ionic cordova plugin add https://github.com/lounai-chen/cordova-plugin-short-vid
 
 第二个key为AlivcLicenseFile，value为内置证书文件（相对于mainBundle）的路径。 
 
-
+    that.video_source =  that.domSanitizer.bypassSecurityTrustUrl(AppUtil.formatLocalPreview(url)); 
+	
 
 
 3 阿里云的参考链接 
 
 https://help.aliyun.com/document_detail/94459.html 
 
-https://help.aliyun.com/document_detail/92854.html
+https://help.aliyun.com/document_detail/92854.html  
+ 
+
+4 Pods 参考 
+
+https://www.jianshu.com/p/8008dcdcd9b2 
+
+https://blog.csdn.net/u013712343/article/details/106276627/ 
+ 
 
 

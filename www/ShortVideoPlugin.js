@@ -47,7 +47,7 @@ var ShortVideoPlugin = {
         },
     //视频缩略图
     //VideoSourcePath : 视频路径
-    //VideoTime : 当前时间的取缩略图, 单位：微秒  
+    //VideoTime : 当前时间的取缩略图, 单位：毫秒  
     video_thumbnail: function(
         VideoSourcePath,
         VideoTime,
